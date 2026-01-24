@@ -5,6 +5,7 @@ using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -19,7 +20,7 @@ using XrmToolBox.Extensibility;
 
 namespace BulkDeleteMigrator
 {
-    public partial class MyPluginControl : PluginControlBase
+    public partial class MyPluginControl : MultipleConnectionsPluginControlBase
     {
         private Settings mySettings;
 
@@ -41,7 +42,7 @@ namespace BulkDeleteMigrator
             {
                 LogInfo("Settings found and loaded");
             }
-            ExecuteMethod(LoadBulkDeletionJobs);
+            //ExecuteMethod(LoadBulkDeletionJobs);
 
         }
 
@@ -67,72 +68,104 @@ namespace BulkDeleteMigrator
             {
                 mySettings.LastUsedOrganizationWebappUrl = detail.WebApplicationUrl;
                 LogInfo("Connection has changed to: {0}", detail.WebApplicationUrl);
-                ExecuteMethod(LoadBulkDeletionJobs);
             }
+
+            if (actionName == "AdditionalOrganization")
+            {
+                SetEnvironmentName(detail.ConnectionName, detail.OrganizationFriendlyName, "Target");
+            }
+            else
+            {   // Load bulk delete jobs when tool is opened with user already connect to an environment
+                ExecuteMethod(LoadBulkDeletionJobs);
+
+                SetEnvironmentName(detail.ConnectionName, detail.OrganizationFriendlyName, "Source");
+            }
+        }
+        protected override void ConnectionDetailsUpdated(NotifyCollectionChangedEventArgs e)
+        {
         }
 
         private void LoadJobsButton_Click(object sender, EventArgs e)
         {
             ExecuteMethod(LoadBulkDeletionJobs);
         }
+        private void TargetEnvButton_Click(object sender, EventArgs e)
+        {
+            AddAdditionalOrganization();
+        }
+        private void SelectAllCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            bool selectedValue = selectAllCheckBox.Checked;
+            foreach (DataGridViewRow row in jobsDataGridView.Rows)
+            {
+                row.Cells[0].Value = selectedValue;
+
+            }
+        }
 
         private void LoadBulkDeletionJobs()
         {
-            WorkAsync(new WorkAsyncInfo()
+            if (Service != null)
             {
-                Message = "Retrieving Bulk Deletion Jobs...",
-                Work = (worker, args) =>
+                WorkAsync(new WorkAsyncInfo()
                 {
-                    // Operation Type - Bulk Delete
-                    const int queryOperationType = 13;
-
-                    var query = new QueryExpression("asyncoperation");
-                    query.ColumnSet.AddColumns("name", "statuscode", "recurrencepattern", "recurrencestarttime", "data");
-
-                    query.Criteria.AddCondition("operationtype", ConditionOperator.Equal, queryOperationType);
-                    query.Criteria.AddCondition("recurrencepattern", ConditionOperator.NotNull);
-
-                    query.AddOrder("createdon", OrderType.Descending);
-
-                    args.Result = Service.RetrieveMultiple(query);
-                },
-                PostWorkCallBack = (args) =>
-                {
-                    if (args.Error != null)
+                    Message = "Retrieving Bulk Deletion Jobs...",
+                    Work = (worker, args) =>
                     {
-                        MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    var result = args.Result as EntityCollection;
-                    jobsDataGridView.Rows.Clear();
-                    if (result != null)
+                        // Operation Type - Bulk Delete
+                        const int queryOperationType = 13;
+
+                        var query = new QueryExpression("asyncoperation");
+                        query.ColumnSet.AddColumns("name", "statecode", "statuscode", "recurrencepattern", "recurrencestarttime", "data");
+
+                        query.Criteria.AddCondition("operationtype", ConditionOperator.Equal, queryOperationType);
+                        query.Criteria.AddCondition("recurrencepattern", ConditionOperator.NotNull);
+
+                        query.AddOrder("createdon", OrderType.Descending);
+
+                        args.Result = Service.RetrieveMultiple(query);
+                    },
+                    PostWorkCallBack = (args) =>
                     {
-                        foreach (var record in result.Entities)
+                        if (args.Error != null)
                         {
-                            string name = record.GetAttributeValue<string>("name") ?? "";
-                            string status = record.FormattedValues["statuscode"];
+                            MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        EntityCollection result = args.Result as EntityCollection;
 
-                            var recurrence = (string)record["recurrencepattern"];
-                            var recurrenceDetails = ExtractRecurrenceDetails(recurrence);
+                        // Clear data grid before adding rows
+                        jobsDataGridView.Rows.Clear();
+                        if (result != null)
+                        {
+                            foreach (var record in result.Entities)
+                            {
+                                string name = record.GetAttributeValue<string>("name") ?? "";
+                                string status = record.FormattedValues["statecode"];
+                                string statusReason = record.FormattedValues["statuscode"];
 
-                            String recurrenceStart = record.GetAttributeValue<DateTime?>("recurrencestarttime").Value.ToLocalTime().ToString("g") ?? "";
+                                var recurrence = (string)record["recurrencepattern"];
+                                var (frequency, interval) = ExtractRecurrenceDetails(recurrence);
 
-                            var bulkDeleteData = (string)record["data"];
-                            var fetchXml = ExtractFetchXml(bulkDeleteData);
+                                String recurrenceStart = record.GetAttributeValue<DateTime?>("recurrencestarttime").Value.ToLocalTime().ToString("g") ?? "";
 
-                            var tableLogicalName = ExtractTableName(fetchXml);
-                            var tableDisplayName = GetTableDisplayName(tableLogicalName, Service);
-                            var tableNameGrid = !String.IsNullOrWhiteSpace(tableDisplayName) ?
-                            $"{tableDisplayName} ({tableLogicalName})" : tableLogicalName;
+                                var bulkDeleteData = (string)record["data"];
+                                var fetchXml = ExtractFetchXml(bulkDeleteData);
 
-                            jobsDataGridView.Rows.Add(false, name, tableNameGrid, recurrenceDetails.frequency, 
-                                recurrenceDetails.interval, recurrenceStart, status);
+                                var tableLogicalName = ExtractTableName(fetchXml);
+                                var tableDisplayName = GetTableDisplayName(tableLogicalName, Service);
+                                var tableNameGrid = !String.IsNullOrWhiteSpace(tableDisplayName) ?
+                                $"{tableDisplayName} ({tableLogicalName})" : tableLogicalName;
+
+                                jobsDataGridView.Rows.Add(false, name, tableNameGrid, frequency,
+                                    interval, recurrenceStart, status, statusReason);
+
+                            }
 
                         }
-
                     }
-                }
 
-            });
+                });
+            }
         }
 
         private string ExtractFetchXml(string bulkDeleteData)
@@ -162,7 +195,7 @@ namespace BulkDeleteMigrator
 
         }
 
-        public string GetTableDisplayName(string tableLogicalName, IOrganizationService service)
+        private string GetTableDisplayName(string tableLogicalName, IOrganizationService service)
         {
             var request = new RetrieveEntityRequest
             {
@@ -175,7 +208,7 @@ namespace BulkDeleteMigrator
             return tableDisplayName;
         }
 
-        public (string frequency, string interval) ExtractRecurrenceDetails(string recurrencePattern)
+        private (string frequency, string interval) ExtractRecurrenceDetails(string recurrencePattern)
         {
             string frequency = "";
             string interval = "";
@@ -198,5 +231,20 @@ namespace BulkDeleteMigrator
             }
             return (frequency, interval);
         }
+
+        private void SetEnvironmentName(String envNameXrm, string envNameFriendly, String envType)
+        {
+            if (envType == "Target")
+            {
+                targetEnvLabel.Text = $"{envNameFriendly} ({envNameXrm})";
+                targetEnvLabel.ForeColor = Color.Green;
+            }
+            else
+            {
+                sourceEnvLabel.Text = $"{envNameFriendly} ({envNameXrm})";
+                sourceEnvLabel.ForeColor = Color.Green;
+            }
+        }
+
     }
 }
