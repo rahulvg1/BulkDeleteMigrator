@@ -1,6 +1,6 @@
 ﻿namespace BulkDeleteMigrator
 {
-    partial class MyPluginControl
+    partial class BulkDeleteMigrator
     {
         /// <summary> 
         /// Variable nécessaire au concepteur.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyPluginControl));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BulkDeleteMigrator));
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.loadJobsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -98,6 +98,7 @@
             this.migrateJobsButton.Size = new System.Drawing.Size(124, 22);
             this.migrateJobsButton.Text = "Migrate selected Jobs";
             this.migrateJobsButton.ToolTipText = "Migrate selected jobs to Target environment";
+            this.migrateJobsButton.Click += new System.EventHandler(this.MigrateJobsButton_Click);
             // 
             // tableLayoutPanel1
             // 

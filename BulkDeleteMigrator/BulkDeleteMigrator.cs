@@ -1,4 +1,5 @@
 ﻿using McTools.Xrm.Connection;
+using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
@@ -17,14 +18,17 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using XrmToolBox.Extensibility;
+using BulkDeleteMigrator.Helpers;
+using BulkDeleteMigrator.Services;
+
 
 namespace BulkDeleteMigrator
 {
-    public partial class MyPluginControl : MultipleConnectionsPluginControlBase
+    public partial class BulkDeleteMigrator : MultipleConnectionsPluginControlBase
     {
         private Settings mySettings;
 
-        public MyPluginControl()
+        public BulkDeleteMigrator()
         {
             InitializeComponent();
         }
@@ -42,7 +46,6 @@ namespace BulkDeleteMigrator
             {
                 LogInfo("Settings found and loaded");
             }
-            //ExecuteMethod(LoadBulkDeletionJobs);
 
         }
 
@@ -99,7 +102,6 @@ namespace BulkDeleteMigrator
             foreach (DataGridViewRow row in jobsDataGridView.Rows)
             {
                 row.Cells[0].Value = selectedValue;
-
             }
         }
 
@@ -107,23 +109,14 @@ namespace BulkDeleteMigrator
         {
             if (Service != null)
             {
+                var bulkDeletionService = new BulkDeletionService(Service);
+
                 WorkAsync(new WorkAsyncInfo()
                 {
                     Message = "Retrieving Bulk Deletion Jobs...",
                     Work = (worker, args) =>
                     {
-                        // Operation Type - Bulk Delete
-                        const int queryOperationType = 13;
-
-                        var query = new QueryExpression("asyncoperation");
-                        query.ColumnSet.AddColumns("name", "statecode", "statuscode", "recurrencepattern", "recurrencestarttime", "data");
-
-                        query.Criteria.AddCondition("operationtype", ConditionOperator.Equal, queryOperationType);
-                        query.Criteria.AddCondition("recurrencepattern", ConditionOperator.NotNull);
-
-                        query.AddOrder("createdon", OrderType.Descending);
-
-                        args.Result = Service.RetrieveMultiple(query);
+                        args.Result = bulkDeletionService.FetchJobs();
                     },
                     PostWorkCallBack = (args) =>
                     {
@@ -131,105 +124,27 @@ namespace BulkDeleteMigrator
                         {
                             MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        EntityCollection result = args.Result as EntityCollection;
+                        var bulkDeletionJobsList = bulkDeletionService.ProcessJobs(args.Result as EntityCollection);
 
                         // Clear data grid before adding rows
                         jobsDataGridView.Rows.Clear();
-                        if (result != null)
+
+                        foreach (var job in bulkDeletionJobsList)
                         {
-                            foreach (var record in result.Entities)
-                            {
-                                string name = record.GetAttributeValue<string>("name") ?? "";
-                                string status = record.FormattedValues["statecode"];
-                                string statusReason = record.FormattedValues["statuscode"];
+                            int rowIndex = jobsDataGridView.Rows.Add(false, job.Name, job.TableNameCombined, job.Frequency,
+                            job.Interval, job.StartedOnLocal, job.Status, job.StatusReason);
 
-                                var recurrence = (string)record["recurrencepattern"];
-                                var (frequency, interval) = ExtractRecurrenceDetails(recurrence);
-
-                                String recurrenceStart = record.GetAttributeValue<DateTime?>("recurrencestarttime").Value.ToLocalTime().ToString("g") ?? "";
-
-                                var bulkDeleteData = (string)record["data"];
-                                var fetchXml = ExtractFetchXml(bulkDeleteData);
-
-                                var tableLogicalName = ExtractTableName(fetchXml);
-                                var tableDisplayName = GetTableDisplayName(tableLogicalName, Service);
-                                var tableNameGrid = !String.IsNullOrWhiteSpace(tableDisplayName) ?
-                                $"{tableDisplayName} ({tableLogicalName})" : tableLogicalName;
-
-                                jobsDataGridView.Rows.Add(false, name, tableNameGrid, frequency,
-                                    interval, recurrenceStart, status, statusReason);
-
-                            }
-
+                            jobsDataGridView.Rows[rowIndex].Tag = job;
                         }
                     }
 
                 });
             }
         }
-
-        private string ExtractFetchXml(string bulkDeleteData)
+        private void MigrateJobsButton_Click(object sender, EventArgs e)
         {
-            XDocument doc = XDocument.Parse(bulkDeleteData);
 
-            // Find the node with the name string
-            var fetchXmlNode = doc.Descendants("string").FirstOrDefault();
-            if (fetchXmlNode != null && fetchXmlNode.Value != null)
-            {
-                return fetchXmlNode.Value;
-            }
-            return null;
 
-        }
-
-        private string ExtractTableName(string fetchXML)
-        {
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(fetchXML);
-            var entityNode = xmlDoc.SelectSingleNode("fetch/entity");
-            if (entityNode != null && entityNode.Attributes != null && entityNode.Attributes["name"] != null)
-            {
-                return entityNode.Attributes["name"].Value;
-            }
-            return null;
-
-        }
-
-        private string GetTableDisplayName(string tableLogicalName, IOrganizationService service)
-        {
-            var request = new RetrieveEntityRequest
-            {
-                EntityFilters = EntityFilters.Entity,
-                LogicalName = tableLogicalName
-            };
-
-            var response = (RetrieveEntityResponse)service.Execute(request);
-            var tableDisplayName = response.EntityMetadata.DisplayName.UserLocalizedLabel?.Label;
-            return tableDisplayName;
-        }
-
-        private (string frequency, string interval) ExtractRecurrenceDetails(string recurrencePattern)
-        {
-            string frequency = "";
-            string interval = "";
-
-            if (!String.IsNullOrWhiteSpace(recurrencePattern))
-            {
-                string[] recurrenceParts = recurrencePattern.Split(';');
-                foreach (var part in recurrenceParts)
-                {
-                    var prop = part.Split('=');
-                    if (prop[0] == "FREQ")
-                    {
-                        frequency = prop[1];
-                    }
-                    else if (prop[0] == "INTERVAL")
-                    {
-                        interval = prop[1];
-                    }
-                }
-            }
-            return (frequency, interval);
         }
 
         private void SetEnvironmentName(String envNameXrm, string envNameFriendly, String envType)
@@ -245,6 +160,5 @@ namespace BulkDeleteMigrator
                 sourceEnvLabel.ForeColor = Color.Green;
             }
         }
-
     }
 }
