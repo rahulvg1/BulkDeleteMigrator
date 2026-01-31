@@ -40,7 +40,7 @@
             this.sourceEnvLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.logTextBox = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.jobsDataGridView = new System.Windows.Forms.DataGridView();
             this.JobSelection = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -172,7 +172,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.logTextBox);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 390);
             this.groupBox2.Name = "groupBox2";
@@ -181,15 +181,18 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Logs";
             // 
-            // textBox1
+            // logTextBox
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(3, 16);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1203, 125);
-            this.textBox1.TabIndex = 0;
+            this.logTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logTextBox.Enabled = false;
+            this.logTextBox.Location = new System.Drawing.Point(3, 16);
+            this.logTextBox.Multiline = true;
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.ReadOnly = true;
+            this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.logTextBox.Size = new System.Drawing.Size(1203, 125);
+            this.logTextBox.TabIndex = 0;
             // 
             // groupBox3
             // 
@@ -221,6 +224,7 @@
             this.StatusReason});
             this.jobsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.jobsDataGridView.Location = new System.Drawing.Point(3, 46);
+            this.jobsDataGridView.MultiSelect = false;
             this.jobsDataGridView.Name = "jobsDataGridView";
             this.jobsDataGridView.RowHeadersVisible = false;
             this.jobsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -300,13 +304,13 @@
             this.selectAllCheckBox.UseVisualStyleBackColor = true;
             this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.SelectAllCheckBox_CheckedChanged);
             // 
-            // MyPluginControl
+            // BulkDeleteMigrator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.toolStripMenu);
-            this.Name = "MyPluginControl";
+            this.Name = "BulkDeleteMigrator";
             this.Size = new System.Drawing.Size(1215, 562);
             this.Load += new System.EventHandler(this.MyPluginControl_Load);
             this.toolStripMenu.ResumeLayout(false);
@@ -337,7 +341,7 @@
         private System.Windows.Forms.Label targetEnvLabel;
         private System.Windows.Forms.Button targetEnvButton;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox logTextBox;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView jobsDataGridView;

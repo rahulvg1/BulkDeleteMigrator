@@ -1,5 +1,6 @@
 ﻿using BulkDeleteMigrator.Helpers;
 using BulkDeleteMigrator.Models;
+using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Services.Description;
+using XrmToolBox.Extensibility;
 
 namespace BulkDeleteMigrator.Services
 {
@@ -68,6 +70,31 @@ namespace BulkDeleteMigrator.Services
                 }
             }
             return bulkDeletionJobList;
+        }
+
+        public void MigrateJob(BulkDeletionJob job)
+        {
+            // Convert FetchXML to QueryExpression as BulkDelete Request only accepts QueryExpressions
+            FetchXmlToQueryExpressionRequest fetchXmlToQueryExpressionRequest = new FetchXmlToQueryExpressionRequest()
+            {
+                FetchXml = job.FetchXml
+            };
+            FetchXmlToQueryExpressionResponse fetchXmlToQueryExpressionResponse =
+            _service.Execute(fetchXmlToQueryExpressionRequest) as FetchXmlToQueryExpressionResponse;
+
+            QueryExpression queryExpression = fetchXmlToQueryExpressionResponse.Query;
+
+            BulkDeleteRequest bulkDeleteRequest = new BulkDeleteRequest()
+            {
+                QuerySet = new[] { queryExpression },
+                StartDateTime = DateTime.UtcNow,
+                RecurrencePattern = job.RecurrencePattern,
+                SendEmailNotification = false,
+                JobName = job.Name,
+                ToRecipients = Array.Empty<Guid>(),
+                CCRecipients = Array.Empty<Guid>()
+            };
+            _service.Execute(bulkDeleteRequest);
         }
     }
 }
