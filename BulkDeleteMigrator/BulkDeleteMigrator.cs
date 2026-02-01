@@ -177,15 +177,19 @@ namespace BulkDeleteMigrator
                     int successCount = 0;
                     int errorCount = 0;
 
+                    WriteLog($"Starting Migration of {jobsToMigrate.Count} Job(s)");
+
                     foreach (BulkDeletionJob job in jobsToMigrate)
                     {
                         try
                         {
                             bulkDeletionService.MigrateJob(job);
+                            WriteLog($"Successfully migrated: {job.Name}");
                             successCount++;
                         }
                         catch (Exception ex)
                         {
+                            WriteLog($"Error migrating {job.Name}: {ex.Message}");
                             errorCount++;
                         }
                     }
@@ -198,14 +202,18 @@ namespace BulkDeleteMigrator
                         MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     var result = (dynamic)args.Result;
+
+                    WriteLog($"Migration Completed. Success: {result.SuccessCount}, Failures: {result.ErrorCount}");
+                    WriteLog("=========================================================");
+
                     if (result.ErrorCount > 0)
                     {
-                        MessageBox.Show($"Operation completed with errors.\nSuccess: {result.SuccessCount}\nFailures: {result.ErrorCount}\nPlease check the logs for more details.",
+                        MessageBox.Show($"Migration completed with errors.\nSuccess: {result.SuccessCount}\nFailures: {result.ErrorCount}\nPlease check the logs for more details.",
                             "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else
                     {
-                        MessageBox.Show($"All operations completed successfully", "Success");
+                        MessageBox.Show($"Migration completed successfully", "Success");
                     }
                     ClearJobSelections();
                 }
@@ -251,6 +259,12 @@ namespace BulkDeleteMigrator
             {
                 selectAllCheckBox.Checked = false;
             }
+        }
+
+        private void WriteLog(string message)
+        { 
+            logTextBox.AppendText(message + Environment.NewLine);
+
         }
     }
 }

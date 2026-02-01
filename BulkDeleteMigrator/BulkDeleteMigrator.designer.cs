@@ -185,11 +185,10 @@
             // 
             this.logTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logTextBox.Enabled = false;
+            this.logTextBox.HideSelection = false;
             this.logTextBox.Location = new System.Drawing.Point(3, 16);
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
-            this.logTextBox.ReadOnly = true;
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logTextBox.Size = new System.Drawing.Size(1203, 125);
             this.logTextBox.TabIndex = 0;
