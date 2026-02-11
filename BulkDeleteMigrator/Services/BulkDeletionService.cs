@@ -26,7 +26,7 @@ namespace BulkDeleteMigrator.Services
             const int queryOperationType = 13;
 
             var query = new QueryExpression("asyncoperation");
-            query.ColumnSet.AddColumns("name", "statecode", "statuscode", "recurrencepattern", "recurrencestarttime", "data");
+            query.ColumnSet.AddColumns("name", "recurrencepattern", "recurrencestarttime", "data", "statecode", "statuscode");
 
             query.Criteria.AddCondition("operationtype", ConditionOperator.Equal, queryOperationType);
             query.Criteria.AddCondition("recurrencepattern", ConditionOperator.NotNull);

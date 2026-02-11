@@ -109,7 +109,15 @@ namespace BulkDeleteMigrator
                     Message = "Retrieving Bulk Deletion Jobs...",
                     Work = (worker, args) =>
                     {
-                        args.Result = bulkDeletionService.FetchJobs();
+                        EntityCollection rawResults = bulkDeletionService.FetchJobs();
+                        if (rawResults?.Entities?.Count > 0)
+                        {
+                            args.Result = bulkDeletionService.ProcessJobs(rawResults);
+                        }
+                        else
+                        {
+                            args.Result = new List<BulkDeletionJob>();
+                        }
                     },
                     PostWorkCallBack = (args) =>
                     {
@@ -117,10 +125,16 @@ namespace BulkDeleteMigrator
                         {
                             MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        var bulkDeletionJobsList = bulkDeletionService.ProcessJobs(args.Result as EntityCollection);
+                        var bulkDeletionJobsList = args.Result as List<BulkDeletionJob>;
 
                         // Clear data grid before adding rows
                         jobsDataGridView.Rows.Clear();
+
+                        if (bulkDeletionJobsList.Count == 0)
+                        {
+                            MessageBox.Show("No Bulk Deletion Jobs found in this environment.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
 
                         foreach (var job in bulkDeletionJobsList)
                         {
@@ -147,8 +161,8 @@ namespace BulkDeleteMigrator
             bool isJobsSelected = IsJobsSelected();
             if (!isJobsSelected)
             {
-                MessageBox.Show("Please select at least one Bulk Deletion Job to proceed",
-                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select at least one Bulk Deletion Job to proceed","Warning", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

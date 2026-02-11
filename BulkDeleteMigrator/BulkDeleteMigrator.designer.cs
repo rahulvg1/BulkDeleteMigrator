@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BulkDeleteMigrator));
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.loadJobsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -43,6 +42,8 @@
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.jobsDataGridView = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
             this.JobSelection = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,8 +52,6 @@
             this.RecurrenceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -71,31 +70,32 @@
             this.migrateJobsButton});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(1215, 25);
+            this.toolStripMenu.Size = new System.Drawing.Size(1215, 31);
             this.toolStripMenu.TabIndex = 4;
             this.toolStripMenu.Text = "toolStrip1";
             // 
             // loadJobsButton
             // 
-            this.loadJobsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.loadJobsButton.Image = global::BulkDeleteMigrator.Properties.Resources.load_icon_24;
+            this.loadJobsButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.loadJobsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.loadJobsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.loadJobsButton.Name = "loadJobsButton";
-            this.loadJobsButton.Size = new System.Drawing.Size(136, 22);
+            this.loadJobsButton.Size = new System.Drawing.Size(160, 28);
             this.loadJobsButton.Text = "Load Bulk Deletion Jobs";
             this.loadJobsButton.Click += new System.EventHandler(this.LoadJobsButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // migrateJobsButton
             // 
-            this.migrateJobsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.migrateJobsButton.Image = ((System.Drawing.Image)(resources.GetObject("migrateJobsButton.Image")));
+            this.migrateJobsButton.Image = global::BulkDeleteMigrator.Properties.Resources.play_icon_24;
             this.migrateJobsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.migrateJobsButton.Name = "migrateJobsButton";
-            this.migrateJobsButton.Size = new System.Drawing.Size(124, 22);
+            this.migrateJobsButton.Size = new System.Drawing.Size(148, 28);
             this.migrateJobsButton.Text = "Migrate selected Jobs";
             this.migrateJobsButton.ToolTipText = "Migrate selected jobs to Target environment";
             this.migrateJobsButton.Click += new System.EventHandler(this.MigrateJobsButton_Click);
@@ -108,13 +108,13 @@
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 25);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 31);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1215, 537);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1215, 531);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // groupBox1
@@ -174,7 +174,7 @@
             // 
             this.groupBox2.Controls.Add(this.logTextBox);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(3, 390);
+            this.groupBox2.Location = new System.Drawing.Point(3, 384);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1209, 144);
             this.groupBox2.TabIndex = 2;
@@ -200,7 +200,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(3, 83);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1209, 301);
+            this.groupBox3.Size = new System.Drawing.Size(1209, 295);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bulk Deletion Jobs";
@@ -226,9 +226,29 @@
             this.jobsDataGridView.MultiSelect = false;
             this.jobsDataGridView.Name = "jobsDataGridView";
             this.jobsDataGridView.RowHeadersVisible = false;
-            this.jobsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.jobsDataGridView.Size = new System.Drawing.Size(1203, 252);
+            this.jobsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.jobsDataGridView.Size = new System.Drawing.Size(1203, 246);
             this.jobsDataGridView.TabIndex = 3;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.selectAllCheckBox);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 16);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1203, 30);
+            this.panel1.TabIndex = 0;
+            // 
+            // selectAllCheckBox
+            // 
+            this.selectAllCheckBox.AutoSize = true;
+            this.selectAllCheckBox.Location = new System.Drawing.Point(6, 7);
+            this.selectAllCheckBox.Name = "selectAllCheckBox";
+            this.selectAllCheckBox.Size = new System.Drawing.Size(117, 17);
+            this.selectAllCheckBox.TabIndex = 0;
+            this.selectAllCheckBox.Text = "Select/Unselect All";
+            this.selectAllCheckBox.UseVisualStyleBackColor = true;
+            this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.SelectAllCheckBox_CheckedChanged);
             // 
             // JobSelection
             // 
@@ -248,7 +268,7 @@
             this.Table.HeaderText = "Table";
             this.Table.Name = "Table";
             this.Table.ReadOnly = true;
-            this.Table.Width = 300;
+            this.Table.Width = 350;
             // 
             // Frequency
             // 
@@ -282,26 +302,6 @@
             this.StatusReason.Name = "StatusReason";
             this.StatusReason.ReadOnly = true;
             this.StatusReason.Width = 150;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.selectAllCheckBox);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 16);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1203, 30);
-            this.panel1.TabIndex = 0;
-            // 
-            // selectAllCheckBox
-            // 
-            this.selectAllCheckBox.AutoSize = true;
-            this.selectAllCheckBox.Location = new System.Drawing.Point(6, 7);
-            this.selectAllCheckBox.Name = "selectAllCheckBox";
-            this.selectAllCheckBox.Size = new System.Drawing.Size(70, 17);
-            this.selectAllCheckBox.TabIndex = 0;
-            this.selectAllCheckBox.Text = "Select All";
-            this.selectAllCheckBox.UseVisualStyleBackColor = true;
-            this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.SelectAllCheckBox_CheckedChanged);
             // 
             // BulkDeleteMigrator
             // 
