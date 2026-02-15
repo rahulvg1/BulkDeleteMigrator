@@ -135,6 +135,10 @@ namespace BulkDeleteMigrator
                             MessageBox.Show("No Bulk Deletion Jobs found in this environment.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
                         }
+                        // Enable Migrate and Select Target buttons and Select/Unselect All checkbox 
+                        EnableInputElements();
+                        // Clear select all checkbox when jobs are reloaded
+                        selectAllCheckBox.Checked = false;
 
                         foreach (var job in bulkDeletionJobsList)
                         {
@@ -278,6 +282,14 @@ namespace BulkDeleteMigrator
         private void WriteLog(string message)
         { 
             logTextBox.AppendText(message + Environment.NewLine);
+
+        }
+
+        private void EnableInputElements()
+        {
+            selectAllCheckBox.Enabled = true;
+            targetEnvButton.Enabled = true;
+            migrateJobsButton.Enabled = true;
 
         }
     }

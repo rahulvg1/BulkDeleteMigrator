@@ -42,8 +42,6 @@
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.jobsDataGridView = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
             this.JobSelection = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,6 +50,8 @@
             this.RecurrenceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -92,6 +92,7 @@
             // 
             // migrateJobsButton
             // 
+            this.migrateJobsButton.Enabled = false;
             this.migrateJobsButton.Image = global::BulkDeleteMigrator.Properties.Resources.play_icon_24;
             this.migrateJobsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.migrateJobsButton.Name = "migrateJobsButton";
@@ -143,6 +144,7 @@
             // 
             // targetEnvButton
             // 
+            this.targetEnvButton.Enabled = false;
             this.targetEnvButton.Location = new System.Drawing.Point(9, 40);
             this.targetEnvButton.Name = "targetEnvButton";
             this.targetEnvButton.Size = new System.Drawing.Size(83, 23);
@@ -230,26 +232,6 @@
             this.jobsDataGridView.Size = new System.Drawing.Size(1203, 246);
             this.jobsDataGridView.TabIndex = 3;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.selectAllCheckBox);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 16);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1203, 30);
-            this.panel1.TabIndex = 0;
-            // 
-            // selectAllCheckBox
-            // 
-            this.selectAllCheckBox.AutoSize = true;
-            this.selectAllCheckBox.Location = new System.Drawing.Point(6, 7);
-            this.selectAllCheckBox.Name = "selectAllCheckBox";
-            this.selectAllCheckBox.Size = new System.Drawing.Size(117, 17);
-            this.selectAllCheckBox.TabIndex = 0;
-            this.selectAllCheckBox.Text = "Select/Unselect All";
-            this.selectAllCheckBox.UseVisualStyleBackColor = true;
-            this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.SelectAllCheckBox_CheckedChanged);
-            // 
             // JobSelection
             // 
             this.JobSelection.HeaderText = " ";
@@ -302,6 +284,27 @@
             this.StatusReason.Name = "StatusReason";
             this.StatusReason.ReadOnly = true;
             this.StatusReason.Width = 150;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.selectAllCheckBox);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 16);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1203, 30);
+            this.panel1.TabIndex = 0;
+            // 
+            // selectAllCheckBox
+            // 
+            this.selectAllCheckBox.AutoSize = true;
+            this.selectAllCheckBox.Enabled = false;
+            this.selectAllCheckBox.Location = new System.Drawing.Point(6, 7);
+            this.selectAllCheckBox.Name = "selectAllCheckBox";
+            this.selectAllCheckBox.Size = new System.Drawing.Size(117, 17);
+            this.selectAllCheckBox.TabIndex = 0;
+            this.selectAllCheckBox.Text = "Select/Unselect All";
+            this.selectAllCheckBox.UseVisualStyleBackColor = true;
+            this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.SelectAllCheckBox_CheckedChanged);
             // 
             // BulkDeleteMigrator
             // 
