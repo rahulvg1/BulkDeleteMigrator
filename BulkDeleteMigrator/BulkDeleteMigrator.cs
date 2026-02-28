@@ -11,13 +11,17 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
+using XrmToolBox.Extensibility.Interfaces;
 
 
 namespace BulkDeleteMigrator
 {
-    public partial class BulkDeleteMigrator : MultipleConnectionsPluginControlBase
+    public partial class BulkDeleteMigrator : MultipleConnectionsPluginControlBase, IGitHubPlugin
     {
         private Settings mySettings;
+
+        public string RepositoryName => "BulkDeleteMigrator";
+        public string UserName => "rahulvg1";
 
         public BulkDeleteMigrator()
         {
