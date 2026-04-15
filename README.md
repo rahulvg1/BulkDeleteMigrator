@@ -2,8 +2,6 @@
 
 An [XrmToolBox plugin](https://www.xrmtoolbox.com/plugins/RVG.XrmToolBox.BulkDeleteMigrator/) designed to seamlessly migrate/copy Recurring bulk deletion jobs from one environment to another, eliminating the need for manual recreation.
 
-<img width="1920" height="935" alt="image" src="https://github.com/user-attachments/assets/5b461d88-5092-4309-9327-c4a5d97b987d" />
-
 ## 📦 Installation
 
 1. Open **XrmToolBox**.
