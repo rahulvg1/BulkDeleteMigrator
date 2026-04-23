@@ -20,7 +20,7 @@ namespace BulkDeleteMigrator.Services
         {
             _service = service;
         }
-        public EntityCollection FetchJobs()
+        public EntityCollection FetchJobs(int jobType)
         {
             // Operation Type - Bulk Delete
             const int queryOperationType = 13;
@@ -29,7 +29,15 @@ namespace BulkDeleteMigrator.Services
             query.ColumnSet.AddColumns("name", "recurrencepattern", "recurrencestarttime", "data", "statecode", "statuscode");
 
             query.Criteria.AddCondition("operationtype", ConditionOperator.Equal, queryOperationType);
-            query.Criteria.AddCondition("recurrencepattern", ConditionOperator.NotNull);
+
+            if (jobType == 0)
+            {
+                query.Criteria.AddCondition("recurrencepattern", ConditionOperator.NotNull);
+            }
+            else if (jobType == 1)
+            {
+                query.Criteria.AddCondition("recurrencepattern", ConditionOperator.Null);
+            }
 
             query.AddOrder("name", OrderType.Ascending);
 
@@ -50,9 +58,9 @@ namespace BulkDeleteMigrator.Services
                     var tableLogicalName = BulkDeletionHelper.ExtractTableName(fetchXml);
                     var tableDisplayName = BulkDeletionHelper.GetTableDisplayName(tableLogicalName, _service);
 
-                    var recurrencePattern = (string)record["recurrencepattern"];
+                    var recurrencePattern = record.GetAttributeValue<string>("recurrencepattern");
                     var (frequency, interval) = BulkDeletionHelper.ExtractRecurrenceDetails(recurrencePattern);
-
+                    
                     bulkDeletionJobList.Add(new BulkDeletionJob
                     {
                         Id = record.Id,
@@ -60,10 +68,11 @@ namespace BulkDeleteMigrator.Services
                         FetchXml = fetchXml,
                         TableLogicalName = tableLogicalName,
                         TableDisplayName = tableDisplayName,
+                        Type = String.IsNullOrWhiteSpace(recurrencePattern) ? "Non-Recurring" : "Recurring",
                         Frequency = frequency,
                         Interval = interval,
                         RecurrencePattern = recurrencePattern,
-                        StartedOn = record.GetAttributeValue<DateTime?>("recurrencestarttime").Value,
+                        StartedOn = record.GetAttributeValue<DateTime?>("recurrencestarttime"),
                         Status = record.FormattedValues["statecode"],
                         StatusReason = record.FormattedValues["statuscode"]
                     });

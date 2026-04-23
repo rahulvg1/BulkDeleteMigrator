@@ -13,9 +13,10 @@ namespace BulkDeleteMigrator.Models
         public string FetchXml { get; set; }
         public string TableLogicalName { get; set; }
         public string TableDisplayName { get; set; }
+        public string Type { get; set; }
         public string Frequency { get; set; }
         public string Interval { get; set; }
-        public DateTime StartedOn { get; set; }
+        public DateTime? StartedOn { get; set; }
         public string Status { get; set; }
         public string StatusReason { get; set; }
         public string RecurrencePattern { get; set; }
@@ -36,9 +37,9 @@ namespace BulkDeleteMigrator.Models
             {
                 if (StartedOn != null)
                 {
-                    return StartedOn.ToLocalTime().ToString("g");
+                    return StartedOn?.ToLocalTime().ToString("g");
                 }
-                return "N/A";
+                return "";
             }
         }
     }

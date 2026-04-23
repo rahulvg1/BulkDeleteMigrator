@@ -33,32 +33,41 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.migrateJobsButton = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.logTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.jobsDataGridView = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.targetEnvLabel = new System.Windows.Forms.Label();
             this.targetEnvButton = new System.Windows.Forms.Button();
             this.sourceEnvLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.logTextBox = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.jobsDataGridView = new System.Windows.Forms.DataGridView();
+            this.Filters = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.jobTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
             this.JobSelection = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Frequency = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RecurrenceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.jobsDataGridView)).BeginInit();
             this.panel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.Filters.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -105,9 +114,9 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 31);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -117,60 +126,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1215, 531);
             this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.targetEnvLabel);
-            this.groupBox1.Controls.Add(this.targetEnvButton);
-            this.groupBox1.Controls.Add(this.sourceEnvLabel);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1209, 74);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Environments";
-            // 
-            // targetEnvLabel
-            // 
-            this.targetEnvLabel.AutoSize = true;
-            this.targetEnvLabel.ForeColor = System.Drawing.Color.Red;
-            this.targetEnvLabel.Location = new System.Drawing.Point(107, 45);
-            this.targetEnvLabel.Name = "targetEnvLabel";
-            this.targetEnvLabel.Size = new System.Drawing.Size(69, 13);
-            this.targetEnvLabel.TabIndex = 3;
-            this.targetEnvLabel.Text = "Not Selected";
-            // 
-            // targetEnvButton
-            // 
-            this.targetEnvButton.Enabled = false;
-            this.targetEnvButton.Location = new System.Drawing.Point(9, 40);
-            this.targetEnvButton.Name = "targetEnvButton";
-            this.targetEnvButton.Size = new System.Drawing.Size(83, 23);
-            this.targetEnvButton.TabIndex = 2;
-            this.targetEnvButton.Text = "Select Target";
-            this.targetEnvButton.UseVisualStyleBackColor = true;
-            this.targetEnvButton.Click += new System.EventHandler(this.TargetEnvButton_Click);
-            // 
-            // sourceEnvLabel
-            // 
-            this.sourceEnvLabel.AutoSize = true;
-            this.sourceEnvLabel.ForeColor = System.Drawing.Color.Red;
-            this.sourceEnvLabel.Location = new System.Drawing.Point(107, 20);
-            this.sourceEnvLabel.Name = "sourceEnvLabel";
-            this.sourceEnvLabel.Size = new System.Drawing.Size(69, 13);
-            this.sourceEnvLabel.TabIndex = 1;
-            this.sourceEnvLabel.Text = "Not Selected";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Source";
             // 
             // groupBox2
             // 
@@ -218,6 +173,7 @@
             this.JobSelection,
             this.JobName,
             this.Table,
+            this.Type,
             this.Frequency,
             this.Interval,
             this.RecurrenceDate,
@@ -231,59 +187,6 @@
             this.jobsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.jobsDataGridView.Size = new System.Drawing.Size(1203, 246);
             this.jobsDataGridView.TabIndex = 3;
-            // 
-            // JobSelection
-            // 
-            this.JobSelection.HeaderText = " ";
-            this.JobSelection.Name = "JobSelection";
-            this.JobSelection.Width = 30;
-            // 
-            // JobName
-            // 
-            this.JobName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.JobName.HeaderText = "Name";
-            this.JobName.Name = "JobName";
-            this.JobName.ReadOnly = true;
-            // 
-            // Table
-            // 
-            this.Table.HeaderText = "Table";
-            this.Table.Name = "Table";
-            this.Table.ReadOnly = true;
-            this.Table.Width = 350;
-            // 
-            // Frequency
-            // 
-            this.Frequency.HeaderText = "Frequency";
-            this.Frequency.Name = "Frequency";
-            this.Frequency.ReadOnly = true;
-            // 
-            // Interval
-            // 
-            this.Interval.HeaderText = "Interval";
-            this.Interval.Name = "Interval";
-            this.Interval.ReadOnly = true;
-            // 
-            // RecurrenceDate
-            // 
-            this.RecurrenceDate.HeaderText = "Start Time";
-            this.RecurrenceDate.Name = "RecurrenceDate";
-            this.RecurrenceDate.ReadOnly = true;
-            this.RecurrenceDate.Width = 150;
-            // 
-            // Status
-            // 
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            this.Status.Width = 150;
-            // 
-            // StatusReason
-            // 
-            this.StatusReason.HeaderText = "Status Reason";
-            this.StatusReason.Name = "StatusReason";
-            this.StatusReason.ReadOnly = true;
-            this.StatusReason.Width = 150;
             // 
             // panel1
             // 
@@ -306,6 +209,178 @@
             this.selectAllCheckBox.UseVisualStyleBackColor = true;
             this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.SelectAllCheckBox_CheckedChanged);
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.Filters, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1209, 74);
+            this.tableLayoutPanel2.TabIndex = 4;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.targetEnvLabel);
+            this.groupBox1.Controls.Add(this.targetEnvButton);
+            this.groupBox1.Controls.Add(this.sourceEnvLabel);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(598, 68);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Environments";
+            // 
+            // targetEnvLabel
+            // 
+            this.targetEnvLabel.AutoSize = true;
+            this.targetEnvLabel.ForeColor = System.Drawing.Color.Red;
+            this.targetEnvLabel.Location = new System.Drawing.Point(107, 45);
+            this.targetEnvLabel.Name = "targetEnvLabel";
+            this.targetEnvLabel.Size = new System.Drawing.Size(69, 13);
+            this.targetEnvLabel.TabIndex = 3;
+            this.targetEnvLabel.Text = "Not Selected";
+            // 
+            // targetEnvButton
+            // 
+            this.targetEnvButton.Enabled = false;
+            this.targetEnvButton.Location = new System.Drawing.Point(9, 40);
+            this.targetEnvButton.Name = "targetEnvButton";
+            this.targetEnvButton.Size = new System.Drawing.Size(83, 23);
+            this.targetEnvButton.TabIndex = 2;
+            this.targetEnvButton.Text = "Select Target";
+            this.targetEnvButton.UseVisualStyleBackColor = true;
+            // 
+            // sourceEnvLabel
+            // 
+            this.sourceEnvLabel.AutoSize = true;
+            this.sourceEnvLabel.ForeColor = System.Drawing.Color.Red;
+            this.sourceEnvLabel.Location = new System.Drawing.Point(107, 20);
+            this.sourceEnvLabel.Name = "sourceEnvLabel";
+            this.sourceEnvLabel.Size = new System.Drawing.Size(69, 13);
+            this.sourceEnvLabel.TabIndex = 1;
+            this.sourceEnvLabel.Text = "Not Selected";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Source";
+            // 
+            // Filters
+            // 
+            this.Filters.Controls.Add(this.label3);
+            this.Filters.Controls.Add(this.jobTypeComboBox);
+            this.Filters.Controls.Add(this.label2);
+            this.Filters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Filters.Location = new System.Drawing.Point(607, 3);
+            this.Filters.Name = "Filters";
+            this.Filters.Size = new System.Drawing.Size(599, 68);
+            this.Filters.TabIndex = 2;
+            this.Filters.TabStop = false;
+            this.Filters.Text = "Filters";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(235, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "* Click Load Bulk Deletion Jobs to apply the filter";
+            // 
+            // jobTypeComboBox
+            // 
+            this.jobTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.jobTypeComboBox.FormattingEnabled = true;
+            this.jobTypeComboBox.Items.AddRange(new object[] {
+            "Recurring Jobs (Default)",
+            "Non-Recurring Jobs",
+            "All Jobs"});
+            this.jobTypeComboBox.Location = new System.Drawing.Point(70, 14);
+            this.jobTypeComboBox.Name = "jobTypeComboBox";
+            this.jobTypeComboBox.Size = new System.Drawing.Size(129, 21);
+            this.jobTypeComboBox.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(51, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Job Type";
+            // 
+            // JobSelection
+            // 
+            this.JobSelection.HeaderText = " ";
+            this.JobSelection.Name = "JobSelection";
+            this.JobSelection.Width = 30;
+            // 
+            // JobName
+            // 
+            this.JobName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.JobName.HeaderText = "Name";
+            this.JobName.Name = "JobName";
+            this.JobName.ReadOnly = true;
+            // 
+            // Table
+            // 
+            this.Table.HeaderText = "Table";
+            this.Table.Name = "Table";
+            this.Table.ReadOnly = true;
+            this.Table.Width = 300;
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            this.Type.Width = 80;
+            // 
+            // Frequency
+            // 
+            this.Frequency.HeaderText = "Frequency";
+            this.Frequency.Name = "Frequency";
+            this.Frequency.ReadOnly = true;
+            this.Frequency.Width = 80;
+            // 
+            // Interval
+            // 
+            this.Interval.HeaderText = "Interval";
+            this.Interval.Name = "Interval";
+            this.Interval.ReadOnly = true;
+            this.Interval.Width = 80;
+            // 
+            // RecurrenceDate
+            // 
+            this.RecurrenceDate.HeaderText = "Start Time";
+            this.RecurrenceDate.Name = "RecurrenceDate";
+            this.RecurrenceDate.ReadOnly = true;
+            this.RecurrenceDate.Width = 125;
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            // 
+            // StatusReason
+            // 
+            this.StatusReason.HeaderText = "Status Reason";
+            this.StatusReason.Name = "StatusReason";
+            this.StatusReason.ReadOnly = true;
+            // 
             // BulkDeleteMigrator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -318,14 +393,17 @@
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.jobsDataGridView)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.Filters.ResumeLayout(false);
+            this.Filters.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -337,20 +415,27 @@
         private System.Windows.Forms.ToolStripButton loadJobsButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton migrateJobsButton;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label sourceEnvLabel;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label targetEnvLabel;
-        private System.Windows.Forms.Button targetEnvButton;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox logTextBox;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView jobsDataGridView;
         private System.Windows.Forms.CheckBox selectAllCheckBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label targetEnvLabel;
+        private System.Windows.Forms.Button targetEnvButton;
+        private System.Windows.Forms.Label sourceEnvLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox Filters;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox jobTypeComboBox;
+        private System.Windows.Forms.Label label3;
+        private System.DirectoryServices.DirectoryEntry directoryEntry1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn JobSelection;
         private System.Windows.Forms.DataGridViewTextBoxColumn JobName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Table;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Frequency;
         private System.Windows.Forms.DataGridViewTextBoxColumn Interval;
         private System.Windows.Forms.DataGridViewTextBoxColumn RecurrenceDate;
