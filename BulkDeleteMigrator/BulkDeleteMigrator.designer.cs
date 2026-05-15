@@ -37,6 +37,15 @@
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.jobsDataGridView = new System.Windows.Forms.DataGridView();
+            this.JobSelection = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Frequency = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RecurrenceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StatusReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -50,15 +59,6 @@
             this.jobTypeComboBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
-            this.JobSelection = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Frequency = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RecurrenceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StatusReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStripMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -90,8 +90,9 @@
             this.loadJobsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.loadJobsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.loadJobsButton.Name = "loadJobsButton";
-            this.loadJobsButton.Size = new System.Drawing.Size(160, 28);
-            this.loadJobsButton.Text = "Load Bulk Deletion Jobs";
+            this.loadJobsButton.Size = new System.Drawing.Size(201, 28);
+            this.loadJobsButton.Text = "Load/Reload Bulk Deletion Jobs";
+            this.loadJobsButton.ToolTipText = "Load Bulk Deletion Jobs";
             this.loadJobsButton.Click += new System.EventHandler(this.LoadJobsButton_Click);
             // 
             // toolStripSeparator1
@@ -168,6 +169,7 @@
             this.jobsDataGridView.AllowUserToDeleteRows = false;
             this.jobsDataGridView.AllowUserToResizeRows = false;
             this.jobsDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLight;
+            this.jobsDataGridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             this.jobsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.jobsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.JobSelection,
@@ -181,12 +183,71 @@
             this.StatusReason});
             this.jobsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.jobsDataGridView.Location = new System.Drawing.Point(3, 46);
-            this.jobsDataGridView.MultiSelect = false;
             this.jobsDataGridView.Name = "jobsDataGridView";
             this.jobsDataGridView.RowHeadersVisible = false;
-            this.jobsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.jobsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.jobsDataGridView.Size = new System.Drawing.Size(1203, 246);
             this.jobsDataGridView.TabIndex = 3;
+            // 
+            // JobSelection
+            // 
+            this.JobSelection.HeaderText = " ";
+            this.JobSelection.Name = "JobSelection";
+            this.JobSelection.Width = 30;
+            // 
+            // JobName
+            // 
+            this.JobName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.JobName.HeaderText = "Name";
+            this.JobName.Name = "JobName";
+            this.JobName.ReadOnly = true;
+            // 
+            // Table
+            // 
+            this.Table.HeaderText = "Table";
+            this.Table.Name = "Table";
+            this.Table.ReadOnly = true;
+            this.Table.Width = 300;
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            this.Type.Width = 80;
+            // 
+            // Frequency
+            // 
+            this.Frequency.HeaderText = "Frequency";
+            this.Frequency.Name = "Frequency";
+            this.Frequency.ReadOnly = true;
+            this.Frequency.Width = 80;
+            // 
+            // Interval
+            // 
+            this.Interval.HeaderText = "Interval";
+            this.Interval.Name = "Interval";
+            this.Interval.ReadOnly = true;
+            this.Interval.Width = 80;
+            // 
+            // RecurrenceDate
+            // 
+            this.RecurrenceDate.HeaderText = "Start Time";
+            this.RecurrenceDate.Name = "RecurrenceDate";
+            this.RecurrenceDate.ReadOnly = true;
+            this.RecurrenceDate.Width = 125;
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            // 
+            // StatusReason
+            // 
+            this.StatusReason.HeaderText = "Status Reason";
+            this.StatusReason.Name = "StatusReason";
+            this.StatusReason.ReadOnly = true;
             // 
             // panel1
             // 
@@ -257,6 +318,7 @@
             this.targetEnvButton.TabIndex = 2;
             this.targetEnvButton.Text = "Select Target";
             this.targetEnvButton.UseVisualStyleBackColor = true;
+            this.targetEnvButton.Click += new System.EventHandler(this.TargetEnvButton_Click);
             // 
             // sourceEnvLabel
             // 
@@ -295,9 +357,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(9, 42);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(235, 13);
+            this.label3.Size = new System.Drawing.Size(279, 13);
             this.label3.TabIndex = 2;
-            this.label3.Text = "* Click Load Bulk Deletion Jobs to apply the filter";
+            this.label3.Text = "* Click Reload Bulk Deletion Jobs Button to apply the filter";
             // 
             // jobTypeComboBox
             // 
@@ -309,7 +371,7 @@
             "All Jobs"});
             this.jobTypeComboBox.Location = new System.Drawing.Point(70, 14);
             this.jobTypeComboBox.Name = "jobTypeComboBox";
-            this.jobTypeComboBox.Size = new System.Drawing.Size(129, 21);
+            this.jobTypeComboBox.Size = new System.Drawing.Size(143, 21);
             this.jobTypeComboBox.TabIndex = 1;
             // 
             // label2
@@ -320,66 +382,6 @@
             this.label2.Size = new System.Drawing.Size(51, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "Job Type";
-            // 
-            // JobSelection
-            // 
-            this.JobSelection.HeaderText = " ";
-            this.JobSelection.Name = "JobSelection";
-            this.JobSelection.Width = 30;
-            // 
-            // JobName
-            // 
-            this.JobName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.JobName.HeaderText = "Name";
-            this.JobName.Name = "JobName";
-            this.JobName.ReadOnly = true;
-            // 
-            // Table
-            // 
-            this.Table.HeaderText = "Table";
-            this.Table.Name = "Table";
-            this.Table.ReadOnly = true;
-            this.Table.Width = 300;
-            // 
-            // Type
-            // 
-            this.Type.HeaderText = "Type";
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
-            this.Type.Width = 80;
-            // 
-            // Frequency
-            // 
-            this.Frequency.HeaderText = "Frequency";
-            this.Frequency.Name = "Frequency";
-            this.Frequency.ReadOnly = true;
-            this.Frequency.Width = 80;
-            // 
-            // Interval
-            // 
-            this.Interval.HeaderText = "Interval";
-            this.Interval.Name = "Interval";
-            this.Interval.ReadOnly = true;
-            this.Interval.Width = 80;
-            // 
-            // RecurrenceDate
-            // 
-            this.RecurrenceDate.HeaderText = "Start Time";
-            this.RecurrenceDate.Name = "RecurrenceDate";
-            this.RecurrenceDate.ReadOnly = true;
-            this.RecurrenceDate.Width = 125;
-            // 
-            // Status
-            // 
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            // 
-            // StatusReason
-            // 
-            this.StatusReason.HeaderText = "Status Reason";
-            this.StatusReason.Name = "StatusReason";
-            this.StatusReason.ReadOnly = true;
             // 
             // BulkDeleteMigrator
             // 

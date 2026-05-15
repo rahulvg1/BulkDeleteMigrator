@@ -290,7 +290,12 @@ namespace BulkDeleteMigrator
         }
 
         private void WriteLog(string message)
-        { 
+        {
+            if (logTextBox.InvokeRequired)
+            {
+                logTextBox.Invoke(new MethodInvoker(() => WriteLog(message)));
+                return;
+            }
             logTextBox.AppendText(message + Environment.NewLine);
 
         }
@@ -302,5 +307,6 @@ namespace BulkDeleteMigrator
             migrateJobsButton.Enabled = true;
 
         }
+
     }
 }

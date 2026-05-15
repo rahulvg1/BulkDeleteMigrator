@@ -19,7 +19,7 @@ namespace BulkDeleteMigrator.Models
         public DateTime? StartedOn { get; set; }
         public string Status { get; set; }
         public string StatusReason { get; set; }
-        public string RecurrencePattern { get; set; }
+        public string RecurrencePattern { get; set; } = string.Empty;
         public string TableNameCombined
         {
             get
