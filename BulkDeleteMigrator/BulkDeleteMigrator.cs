@@ -42,6 +42,11 @@ namespace BulkDeleteMigrator
                 LogInfo("Settings found and loaded");
             }
 
+            // Set job type to Recurring Jobs by default
+            if (jobTypeComboBox.Items.Count > 0)
+            {
+                jobTypeComboBox.SelectedIndex = 0;
+            }
         }
 
         /// <summary>
@@ -107,13 +112,14 @@ namespace BulkDeleteMigrator
             if (Service != null)
             {
                 var bulkDeletionService = new BulkDeletionService(Service);
+                int jobType = jobTypeComboBox.SelectedIndex;
 
                 WorkAsync(new WorkAsyncInfo()
                 {
                     Message = "Retrieving Bulk Deletion Jobs...",
                     Work = (worker, args) =>
                     {
-                        EntityCollection rawResults = bulkDeletionService.FetchJobs();
+                        EntityCollection rawResults = bulkDeletionService.FetchJobs(jobType);
                         if (rawResults?.Entities?.Count > 0)
                         {
                             args.Result = bulkDeletionService.ProcessJobs(rawResults);
@@ -146,7 +152,7 @@ namespace BulkDeleteMigrator
 
                         foreach (var job in bulkDeletionJobsList)
                         {
-                            int rowIndex = jobsDataGridView.Rows.Add(false, job.Name, job.TableNameCombined, job.Frequency,
+                            int rowIndex = jobsDataGridView.Rows.Add(false, job.Name, job.TableNameCombined, job.Type, job.Frequency,
                             job.Interval, job.StartedOnLocal, job.Status, job.StatusReason);
 
                             jobsDataGridView.Rows[rowIndex].Tag = job;
@@ -284,7 +290,12 @@ namespace BulkDeleteMigrator
         }
 
         private void WriteLog(string message)
-        { 
+        {
+            if (logTextBox.InvokeRequired)
+            {
+                logTextBox.Invoke(new MethodInvoker(() => WriteLog(message)));
+                return;
+            }
             logTextBox.AppendText(message + Environment.NewLine);
 
         }
@@ -296,5 +307,6 @@ namespace BulkDeleteMigrator
             migrateJobsButton.Enabled = true;
 
         }
+
     }
 }
