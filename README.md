@@ -18,7 +18,7 @@ An [XrmToolBox plugin](https://www.xrmtoolbox.com/plugins/RVG.XrmToolBox.BulkDel
    - Recurring Jobs (Default)
    - Non-Recurring Jobs
    - All Jobs
-4. Click on **Load/Reload Bulk Deletion Jobs** button to fetch all the recurring bulk deletion jobs in the source environment *(If you aren't connected to a source environment, you will be prompted to select one)*.
+4. Click on **Load/Reload Bulk Deletion Jobs** button to fetch the bulk deletion jobs in the source environment *(If you aren't connected to a source environment, you will be prompted to select one)*.
 5. Use the checkboxes to choose the jobs you wish to migrate.
 6. Select the Target Environment and click the **Migrate Selected Jobs** button to transfer the selected jobs to the target environment
 7. Check the **Logs** section at the bottom for detailed feedback on the migration
