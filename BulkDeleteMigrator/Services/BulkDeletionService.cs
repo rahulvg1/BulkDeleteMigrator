@@ -25,9 +25,8 @@ namespace BulkDeleteMigrator.Services
         }
         public EntityCollection FetchJobs(int jobType)
         {
- 
             // Recurring Jobs
-            if (jobType == 0)
+            if (jobType == 0 || jobType == -1)
             {
                 var recurringJobs = FetchRecurringJobs();
                 return recurringJobs;
