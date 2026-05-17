@@ -1,6 +1,6 @@
 # Bulk Delete Migrator
 
-Bulk Delete Migrator is an [XrmToolBox plugin](https://www.xrmtoolbox.com/plugins/RVG.XrmToolBox.BulkDeleteMigrator/) for Microsoft Dynamics 365 that allows admins to seamlessly migrate/copy Recurring and Non-recurring bulk deletion jobs between environments, eliminating the need to recreate them manually since they are not solution aware.
+Bulk Delete Migrator is an [XrmToolBox plugin](https://www.xrmtoolbox.com/plugins/RVG.XrmToolBox.BulkDeleteMigrator/) for Microsoft Dynamics 365 that allows admins to seamlessly migrate/copy Recurring and Non-recurring bulk deletion jobs between environments. This eliminates the need to recreate them manually, as these jobs are not solution aware.
 
 ![Bulk Delete Migrator Interface](BulkDeleteMigrator/Images/BulkDeleteMigrator.png)
 
